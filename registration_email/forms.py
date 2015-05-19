@@ -8,10 +8,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-
 try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
+    from django.conf.settings import AUTH_USER_MODEL
+    User = AUTH_USER_MODEL
 except ImportError:
     from django.contrib.auth.models import User
 

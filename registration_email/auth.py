@@ -9,8 +9,8 @@ from django.core.validators import validate_email
 
 
 try:
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
+    from django.conf.settings import AUTH_USER_MODEL
+    User = AUTH_USER_MODEL
 except ImportError:
     from django.contrib.auth.models import User
 
