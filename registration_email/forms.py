@@ -5,14 +5,10 @@ import os
 from django import forms
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
-try:
-    from django.conf.settings import AUTH_USER_MODEL
-    User = AUTH_USER_MODEL
-except ImportError:
-    from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # I put this on all required fields, because it's easier to pick up
 # on them with CSS or JavaScript if they have a class of "required"
@@ -136,7 +132,13 @@ class EmailRegistrationForm(forms.Form):
                 raise forms.ValidationError(
                     _("The two password fields didn't match."))
 
+        # Copy the now known-good password to the proper field name
+        self.cleaned_data['password'] = data['password1']
         self.cleaned_data['username'] = generate_username(data['email'])
+
+        # Get rid of any data that isn't a field in the in-use user model
+        self.cleaned_data = {i: self.cleaned_data[i] for i in User._meta.get_all_field_names() if i in self.cleaned_data}
+
         return self.cleaned_data
 
     class Media:
