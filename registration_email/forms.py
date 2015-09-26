@@ -132,9 +132,10 @@ class EmailRegistrationForm(forms.Form):
                 raise forms.ValidationError(
                     _("The two password fields didn't match."))
 
-        # Copy the now known-good password to the proper field name
-        self.cleaned_data['password'] = data['password1']
-        self.cleaned_data['username'] = generate_username(data['email'])
+            # Copy the now known-good password to the proper field name
+            # Only do this if password1 exists in data (it will already have failed validation by now, don't worry)
+            self.cleaned_data['password'] = data['password1']
+            self.cleaned_data['username'] = generate_username(data['email'])
 
         # Get rid of any data that isn't a field in the in-use user model
         self.cleaned_data = {i: self.cleaned_data[i] for i in User._meta.get_all_field_names() if i in self.cleaned_data}
