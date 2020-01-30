@@ -12,7 +12,7 @@ from registration_email.forms import EmailAuthenticationForm
 from .views import login_remember_me
 
 
-urlpatterns = patterns(
+urlpatterns = [
     '',
     url(
         r'^login/$',
@@ -64,4 +64,4 @@ urlpatterns = patterns(
         {'template_name': 'registration/password_reset_done.html'},
         name='password_reset_done',
     ),
-)
+]
