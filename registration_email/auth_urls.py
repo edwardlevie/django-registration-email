@@ -13,6 +13,7 @@ from .views import login_remember_me
 
 
 urlpatterns = [
+        # "",
     url(
         r'^login/$',
         login_remember_me,
