@@ -138,7 +138,7 @@ class EmailRegistrationForm(forms.Form):
             self.cleaned_data['username'] = generate_username(data['email'])
 
         # Get rid of any data that isn't a field in the in-use user model
-        self.cleaned_data = {i: self.cleaned_data[i] for i in User._meta.get_all_field_names() if i in self.cleaned_data}
+        self.cleaned_data = {i: self.cleaned_data[i] for i in [f.name for f in User._meta.get_fields()] if i in self.cleaned_data}
 
         return self.cleaned_data
 
